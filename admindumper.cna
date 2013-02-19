@@ -1,8 +1,10 @@
+###############################################################
 # Cortana Script by @christruncer
 # This script will attempt to become system on the box and
 # use metasploit's smart hashdump to gather hashes
 # It performs this action upon every new session
-# Created: 2/18/2013
+# Created: 2/18/2013      Edited: 2/19/2013
+###############################################################
 
 on session_open {
         if(!-iswinmeterpreter $1){return;}
